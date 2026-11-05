@@ -1,0 +1,52 @@
+{
+  "name": "youyou-work-hours",
+  "version": "1.1.0",
+  "type": "module",
+  "description": "Workday clock-in, configurable schedule, average hours and calendar/year/list review",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "LICENSE",
+    ".gitignore"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-chat"
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mryouyouHK/youyou-work-hours.git"
+  },
+  "homepage": "https://github.com/mryouyouHK/youyou-work-hours#readme",
+  "bugs": {
+    "url": "https://github.com/mryouyouHK/youyou-work-hours/issues"
+  },
+  "license": "MIT",
+  "author": "litianzhuang",
+  "keywords": [
+    "deepseek",
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin"
+  ]
+}
