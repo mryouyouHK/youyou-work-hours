@@ -356,7 +356,7 @@ window.__ModuleLoader__.load({
         if (!detail) {
           detail = document.createElement('span');
           detail.dataset.workHoursSidebar = 'true';
-          detail.style.cssText = 'display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dsw-alias-label-tertiary);font-size:11px;line-height:15px;font-variant-numeric:tabular-nums';
+          detail.style.cssText = 'display:block;max-width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dsw-alias-label-tertiary);font-size:11px;line-height:15px;font-variant-numeric:tabular-nums;order:2;margin-left:auto';
           const title = row.querySelector('[class*="panelTitle"]');
           if (title) title.after(detail); else row.append(detail);
         }
@@ -381,6 +381,12 @@ window.__ModuleLoader__.load({
         else if (record.out) { const outMs = new Date(record.out).getTime(); text = `上班 ${checkIn} · 下班 ${clock(new Date(outMs))} · 工时 ${fmtDuration(Math.max(0, outMs - (checkInMs === null ? outMs : checkInMs)))}`; }
         else text = `未打卡 · 计划 ${stored.planIn}-${stored.planOut}`;
         if (detail.textContent !== text) detail.textContent = text;
+        /* 这行的 DOM 归 React 管：侧栏折叠/展开重渲时标题会被挪到子节点末尾，
+           「插在标题后面」的顺序就翻了，明细会跑到「计时」左边。用 order 把顺序
+           钉死在样式上：图标 → 计时 → 明细。 */
+        if (detail.style.order !== '2') detail.style.order = '2';
+        const wantMargin = row.querySelector('[class*="panelTitle"]') !== null ? 'auto' : '6px';
+        if (detail.style.marginLeft !== wantMargin) detail.style.marginLeft = wantMargin;
         const minute = now.getHours() * 60 + now.getMinutes();
         const afterOvertime = forceRed || (active && minute >= minutesOf(stored.overtimeAfter));
         const overdue = active && delta !== null ? -delta : -1;
